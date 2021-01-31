@@ -24,7 +24,7 @@ namespace LibrarySystem.Api.Repositories
         public IEnumerable<Book> GetBooks(BookResourceParameter bookResourceParameter)
         {
 
-            if (string.IsNullOrWhiteSpace(bookResourceParameter.MainCategory)|| string.IsNullOrWhiteSpace(bookResourceParameter.MainCategory))
+            if (string.IsNullOrWhiteSpace(bookResourceParameter.MainCategory)|| string.IsNullOrWhiteSpace(bookResourceParameter.SubCategory))
                 return GetBooks();
             var collection = _context.Books as IQueryable<Book>;
             if (!string.IsNullOrWhiteSpace(bookResourceParameter.MainCategory))
@@ -33,7 +33,7 @@ namespace LibrarySystem.Api.Repositories
                 collection = collection.Where(a => a.MainCategory == mainCategory);
             }
 
-            if (string.IsNullOrWhiteSpace(bookResourceParameter.MainCategory)) return collection.ToList();
+            if (string.IsNullOrWhiteSpace(bookResourceParameter.SubCategory)) return collection.ToList();
             {
                 var subCategory = bookResourceParameter.SubCategory.Trim();
                 collection = collection.Where(a => a.SubCategory == subCategory);
