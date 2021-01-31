@@ -35,7 +35,15 @@ namespace LibrarySystem.Api
                 options.UseSqlServer(
                     Configuration.GetConnectionString("LibraryDbConnection")));
             services.AddScoped<IBooksRepository, BooksRepository>();
-            services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+            services.AddSingleton<IAuthorsRepository, AuthorsRepository>();
+            services.AddSingleton<IAnswersService, AnswersService>();
+            //Adding the HttpClient
+            services.AddHttpClient("StackOverFlowClient", client =>
+            {
+                //  Account Api Content Type 
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.BaseAddress = new Uri(Configuration.GetSection("AnswersServiceUrl").Value);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
